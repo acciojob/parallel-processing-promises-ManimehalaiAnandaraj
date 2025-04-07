@@ -37,4 +37,7 @@ async function downloadImages(imageURLs) {
 }
 
 // Call the function with an array of image URLs
-downloadImages(['url1', 'url2', 'url3']).catch(console.error);
+downloadImages(['https://images.unsplash.com/photo-1742943892620-b0fe2db78226?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzM3x8fGVufDB8fHx8fA%3D%3D',
+				'https://images.unsplash.com/photo-1738189669835-61808a9d5981?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0Mnx8fGVufDB8fHx8fA%3D%3D',
+				'https://images.unsplash.com/photo-1742390003820-27d480d1c8ab?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw0OXx8fGVufDB8fHx8fA%3D%3D'])
+	.catch(console.error);
