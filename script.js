@@ -1,6 +1,3 @@
-//your JS code here. If required.
-
-	
 // Main function to download all images
 async function downloadImages() {
     const outputDiv = document.getElementById('output');
@@ -132,10 +129,3 @@ function showNotification(message, type = 'info') {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', downloadImages);
-
-
-
-
-
-
-
