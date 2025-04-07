@@ -35,3 +35,6 @@ async function downloadImages(imageURLs) {
     loadingDiv.style.display = 'none';
   }
 }
+
+// Call the function with an array of image URLs
+downloadImages(['url1', 'url2', 'url3']).catch(console.error);
