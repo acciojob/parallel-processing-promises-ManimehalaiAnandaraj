@@ -2,7 +2,7 @@
 async function downloadImages() {
     const outputDiv = document.getElementById('output');
     const errorDiv = document.getElementById('error');
-    const loadingDiv = document.getElementById('loading');
+    const loadingDiv = document.getElementById('download-images-button');
     
     // Clear previous state
     outputDiv.innerHTML = '';
