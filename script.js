@@ -2,13 +2,14 @@ async function downloadImages(imageURLs) {
   const outputDiv = document.getElementById('output');
   const errorDiv = document.getElementById('error');
   const loadingDiv = document.getElementById('loading');
+	const download =document.getElementById('download-Images-button')
   
   // Clear previous content
   outputDiv.innerHTML = '';
   errorDiv.innerHTML = '';
   
   // Show loading spinner
-  loadingDiv.style.display = 'block';
+  download.style.display = 'block';
   
   try {
     // Create array of promises for each image download
