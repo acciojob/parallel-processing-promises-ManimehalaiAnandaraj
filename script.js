@@ -1,4 +1,3 @@
-
  const output = document.getElementById("output");
     const btn = document.getElementById("download-images-button");
     const loading = document.getElementById("loading");
@@ -15,12 +14,11 @@
         const img = new Image();
         img.src = url;
         img.onload = () => resolve(img);
-        img.onerror = () => reject(Failed to load image : ${url});
+        img.onerror = () => reject(Failed to load image: ${url});
       });
     }
 
-
- function downloadImages(imageList) {
+    function downloadImages(imageList) {
       // Clear previous content
       output.innerHTML = "";
       errorDiv.textContent = "";
@@ -39,6 +37,4 @@
         });
     }
 
-    btn.addEventListener("click", () => downloadImages(images));
-
-  
+  btn.addEventListener("click", () => downloadImages(images));
