@@ -1,15 +1,14 @@
-/*  your css code here. If applicable */
-#loading{
-	display:none;
-	font-weight:bold;
-	margin-bottom:10px;
-}
-#error{
-	color:red;
-	margin-top:10px;
-}
-#output,img{
-	margin:10px;
-	border:2px solid #ccc;
-	border-radius:8px;
-}
+#loading {
+      display: none;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    #error {
+      color: red;
+      margin-top: 10px;
+    }
+    #output ,img {
+      margin: 10px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+    }
