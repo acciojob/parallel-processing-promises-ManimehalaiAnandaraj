@@ -8,7 +8,7 @@
 	color:red;
 	margin-top:10px;
 }
-#output >img{
+#output,img{
 	margin:10px;
 	border:2px solid #ccc;
 	border-radius:8px;
