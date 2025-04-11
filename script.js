@@ -1,4 +1,10 @@
+const imageUrls = [
+  { url: "https://picsum.photos/id/237/200/300" },
+  { url: "https://picsum.photos/id/238/200/300" },
+  { url: "https://picsum.photos/id/239/200/300" },
+];
 
+downloadImages(imageUrls);
 
 function downloadImage(url) {
   return new Promise((resolve, reject) => {
@@ -6,7 +12,7 @@ function downloadImage(url) {
     
     // Set timeout to handle stalled requests
     const timeoutId = setTimeout(() => {
-      reject(new Error(Image load timed out: ${url}));
+      reject(new Error(`Image load timed out: ${url}`));
     }, 15000); // 15 second timeout
     
     img.onload = () => {
@@ -16,7 +22,7 @@ function downloadImage(url) {
     
     img.onerror = () => {
       clearTimeout(timeoutId);
-      reject(new Error(Failed to load image: ${url}));
+      reject(new Error(`Failed to load image: ${url}`));
     };
     
     img.src = url;
@@ -25,7 +31,7 @@ function downloadImage(url) {
 
 /**
  * Main function to download multiple images in parallel
- * @param {string[]} imageUrls - Array of image URLs to download
+ * @param {Object[]} imageUrls - Array of image objects with URLs to download
  * @returns {Promise<HTMLImageElement[]>} - Resolves with array of loaded images
  */
 async function downloadImages(imageUrls) {
@@ -43,8 +49,8 @@ async function downloadImages(imageUrls) {
   
   try {
     // Create array of promises for all downloads
-    const promises = imageUrls.map(url => 
-      downloadImage(url)
+    const promises = imageUrls.map(image => 
+      downloadImage(image.url) // Use image.url instead of just url
         .catch(error => {
           // Return error to handle individual failures
           return error;
@@ -55,13 +61,13 @@ async function downloadImages(imageUrls) {
     const results = await Promise.all(promises);
     
     // Process results
-    const successfulImages = results.filter(result => result instanceof Image);
+    const successfulImages = results.filter(result => result instanceof HTMLImageElement);
     const errors = results.filter(result => result instanceof Error);
     
     // Hide loading spinner
     loadingDiv.style.display = 'none';
     
-// Display successful images
+    // Display successful images
     successfulImages.forEach(img => {
       const container = document.createElement('div');
       container.className = 'image-container';
@@ -72,7 +78,7 @@ async function downloadImages(imageUrls) {
     // Handle errors
     if (errors.length > 0) {
       errorDiv.style.display = 'block';
-      errorDiv.textContent = ${errors.length} image(s) failed to load. First error: ${errors[0].message};
+      errorDiv.textContent = `${errors.length} image(s) failed to load. First error: ${errors[0].message}`;
       
       if (successfulImages.length === 0) {
         throw new Error('All images failed to download');
@@ -84,16 +90,7 @@ async function downloadImages(imageUrls) {
     // Handle unexpected errors
     loadingDiv.style.display = 'none';
     errorDiv.style.display = 'block';
-    errorDiv.textContent = Download error: ${error.message};
+    errorDiv.textContent = `Download error: ${error.message}`;
     return [];
   }
 }
-
-
-const imageUrls = [
-      { url: "https://picsum.photos/id/237/200/300" },
-      { url: "https://picsum.photos/id/238/200/300" },
-      { url: "https://picsum.photos/id/239/200/300" },
-    ];
-downloadImages(imageUrls);
- 
