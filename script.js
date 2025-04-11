@@ -1,77 +1,99 @@
-const imageUrls = [
-      { url: "https://picsum.photos/id/237/200/300" },
-      { url: "https://picsum.photos/id/238/200/300" },
-      { url: "https://picsum.photos/id/239/200/300" },
-    ];
-downloadImages(imageUrls);
+
 
 function downloadImage(url) {
   return new Promise((resolve, reject) => {
     const img = new Image();
     
+    // Set timeout to handle stalled requests
+    const timeoutId = setTimeout(() => {
+      reject(new Error(Image load timed out: ${url}));
+    }, 15000); // 15 second timeout
+    
     img.onload = () => {
+      clearTimeout(timeoutId);
       resolve(img);
     };
     
     img.onerror = () => {
-      reject(new Error(`Failed to load image from URL: ${url}`));
+      clearTimeout(timeoutId);
+      reject(new Error(Failed to load image: ${url}));
     };
     
     img.src = url;
   });
 }
 
-// Main function to download all images
+/**
+ * Main function to download multiple images in parallel
+ * @param {string[]} imageUrls - Array of image URLs to download
+ * @returns {Promise<HTMLImageElement[]>} - Resolves with array of loaded images
+ */
 async function downloadImages(imageUrls) {
   const loadingDiv = document.getElementById('loading');
   const errorDiv = document.getElementById('error');
   const outputDiv = document.getElementById('output');
   
-  // Clear previous results
+  // Clear previous state
   outputDiv.innerHTML = '';
   errorDiv.textContent = '';
+  errorDiv.style.display = 'none';
   
   // Show loading spinner
-  loadingDiv.innerHTML = '<div class="spinner">Loading...</div>';
+  loadingDiv.style.display = 'block';
   
   try {
-    // Create an array of promises for all image downloads
-    const imagePromises = imageUrls.map(url => 
-      downloadImage(url).catch(error => {
-        // Return the error for individual image failures
-        return error;
-      })
+    // Create array of promises for all downloads
+    const promises = imageUrls.map(url => 
+      downloadImage(url)
+        .catch(error => {
+          // Return error to handle individual failures
+          return error;
+        })
     );
     
-    // Wait for all downloads to complete (success or failure)
-    const results = await Promise.all(imagePromises);
+    // Wait for all downloads to complete
+    const results = await Promise.all(promises);
     
     // Process results
     const successfulImages = results.filter(result => result instanceof Image);
-    const failedDownloads = results.filter(result => result instanceof Error);
+    const errors = results.filter(result => result instanceof Error);
     
     // Hide loading spinner
-    loadingDiv.innerHTML = '';
+    loadingDiv.style.display = 'none';
     
-    // Display successful images
+// Display successful images
     successfulImages.forEach(img => {
-      outputDiv.appendChild(img);
-      outputDiv.appendChild(document.createElement('br'));
+      const container = document.createElement('div');
+      container.className = 'image-container';
+      container.appendChild(img);
+      outputDiv.appendChild(container);
     });
     
-    // Display any errors
-    if (failedDownloads.length > 0) {
-      errorDiv.textContent = `${failedDownloads.length} images failed to load. First error: ${failedDownloads[0].message}`;
+    // Handle errors
+    if (errors.length > 0) {
+      errorDiv.style.display = 'block';
+      errorDiv.textContent = ${errors.length} image(s) failed to load. First error: ${errors[0].message};
+      
+      if (successfulImages.length === 0) {
+        throw new Error('All images failed to download');
+      }
     }
     
     return successfulImages;
   } catch (error) {
-    // This would catch unexpected errors in the Promise.all execution
-    loadingDiv.innerHTML = '';
-    errorDiv.textContent = `An unexpected error occurred: ${error.message}`;
+    // Handle unexpected errors
+    loadingDiv.style.display = 'none';
+    errorDiv.style.display = 'block';
+    errorDiv.textContent = Download error: ${error.message};
     return [];
   }
 }
 
 
+const imageUrls = [
+      { url: "https://picsum.photos/id/237/200/300" },
+      { url: "https://picsum.photos/id/238/200/300" },
+      { url: "https://picsum.photos/id/239/200/300" },
+    ];
+downloadImages(imageUrls);
  
