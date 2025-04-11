@@ -19,7 +19,7 @@ function downloadImage(url) {
       clearTimeout(timeoutId);
       resolve(img);
     };
-    
+
     img.onerror = () => {
       clearTimeout(timeoutId);
       reject(new Error(`Failed to load image: ${url}`));
